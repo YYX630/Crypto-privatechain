@@ -91,6 +91,18 @@ app.get("/api/wallet-info", (req, res)=>{
     })
 });
 
+app.get("/api/known-address", (req, res)=>{
+    const addressMap = {};
+
+    for (let block of blockchain.chain){
+        for (let transaction of block.data){
+            const recipient = Object.keys(transaction.outputMap);
+
+            recipient.forEach(recipient=> addressMap[recipient] = recipient);
+        }
+    }
+    res.json(Object.keys(addressMap));
+})
 
 // ------------------------------------------------
 
