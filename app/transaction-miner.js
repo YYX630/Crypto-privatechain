@@ -12,19 +12,25 @@ class TransactionMiner {
         // get the transaction pool's valid transactions
         const validTransactions = this.transactionPool.validTransactions();
 
-        //generate the miner's reward
-        validTransactions.push(
-            Transaction.rewardTransaction({minerWallet: this.wallet})
-        );
+        if (validTransactions.length > 0){
+            //generate the miner's reward
+            validTransactions.push(
+                Transaction.rewardTransaction({minerWallet: this.wallet})
+            );
 
-        // add a block consisting of theses transactions to the blockchain
-        this.blockchain.addBlock({data: validTransactions})
+            // add a block consisting of theses transactions to the blockchain
+            //this is minining........
+            this.blockchain.addBlock({data: validTransactions})
 
-        //broadcast the updated blockchain
-        this.pubsub.broadcastChain();
+            //if successful     //not implemented yet.....
+            //broadcast the updated blockchain
+            this.pubsub.broadcastChain();
 
-        //clear the pool
-        this.transactionPool.clear();
+            //clear the pool
+            this.transactionPool.clear();
+        } else {
+            throw new Error("no valid transactions");
+        }
     }
 }
 

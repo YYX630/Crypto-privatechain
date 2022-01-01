@@ -97,7 +97,11 @@ app.get ("/api/transaction-pool-map", (req, res)=>{
 });
 
 app.get("/api/mine-transactions", (req, res)=>{
-    transactionMiner.mineTransactions();
+    try {
+        transactionMiner.mineTransactions();
+    } catch (error) {
+        return res.status(400).json({type: "error", message: error.message});
+    }
 
     res.redirect("/api/blocks")
 });
