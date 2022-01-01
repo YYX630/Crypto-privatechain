@@ -53219,6 +53219,8 @@ var _react = _interopRequireWildcard(require("react"));
 
 var _reactRouterDom = require("react-router-dom");
 
+var _reactBootstrap = require("react-bootstrap");
+
 var _Block = _interopRequireDefault(require("./Block"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -53226,6 +53228,14 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 function _getRequireWildcardCache(nodeInterop) { if (typeof WeakMap !== "function") return null; var cacheBabelInterop = new WeakMap(); var cacheNodeInterop = new WeakMap(); return (_getRequireWildcardCache = function (nodeInterop) { return nodeInterop ? cacheNodeInterop : cacheBabelInterop; })(nodeInterop); }
 
 function _interopRequireWildcard(obj, nodeInterop) { if (!nodeInterop && obj && obj.__esModule) { return obj; } if (obj === null || typeof obj !== "object" && typeof obj !== "function") { return { default: obj }; } var cache = _getRequireWildcardCache(nodeInterop); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (key !== "default" && Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj.default = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
+
+function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
+
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && iter[Symbol.iterator] != null || iter["@@iterator"] != null) return Array.from(iter); }
+
+function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
 
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
 
@@ -53245,16 +53255,47 @@ var Blocks = function Blocks() {
       blocks = _useState2[0],
       setBlocks = _useState2[1];
 
+  var _useState3 = (0, _react.useState)(1),
+      _useState4 = _slicedToArray(_useState3, 2),
+      paginatedId = _useState4[0],
+      setPaginatedId = _useState4[1];
+
+  var _useState5 = (0, _react.useState)(0),
+      _useState6 = _slicedToArray(_useState5, 2),
+      blocksLength = _useState6[0],
+      setBlocksLength = _useState6[1];
+
   (0, _react.useEffect)(function () {
-    fetch("".concat(document.location.origin, "/api/blocks")).then(function (response) {
+    fetch("".concat(document.location.origin, "/api/blocks/length")).then(function (response) {
+      return response.json();
+    }).then(function (json) {
+      return setBlocksLength(json);
+    });
+    fetchPaginatedBlocks(paginatedId);
+  }, [paginatedId]);
+
+  var fetchPaginatedBlocks = function fetchPaginatedBlocks(pagenatedId) {
+    fetch("".concat(document.location.origin, "/api/blocks/").concat(paginatedId)).then(function (response) {
       return response.json();
     }).then(function (json) {
       setBlocks(json);
     });
-  }, []);
+  };
+
   return /*#__PURE__*/_react.default.createElement("div", null, /*#__PURE__*/_react.default.createElement("div", null, /*#__PURE__*/_react.default.createElement(_reactRouterDom.Link, {
     to: "/"
-  }, "\u30DB\u30FC\u30E0")), /*#__PURE__*/_react.default.createElement("h3", null, "Blocks"), blocks.map(function (block) {
+  }, "\u30DB\u30FC\u30E0")), /*#__PURE__*/_react.default.createElement("h3", null, "Blocks"), /*#__PURE__*/_react.default.createElement("div", null, _toConsumableArray(Array(Math.ceil(blocksLength / 5)).keys()).map(function (key) {
+    var pageNum = key + 1;
+    return /*#__PURE__*/_react.default.createElement("span", {
+      key: key,
+      onClick: function onClick() {
+        return setPaginatedId(pageNum);
+      }
+    }, /*#__PURE__*/_react.default.createElement(_reactBootstrap.Button, {
+      bsSize: "xsmall",
+      bsStyle: "danger"
+    }, pageNum));
+  })), blocks.map(function (block) {
     return /*#__PURE__*/_react.default.createElement(_Block.default, {
       key: block.hash,
       block: block
@@ -53264,7 +53305,7 @@ var Blocks = function Blocks() {
 
 var _default = Blocks;
 exports.default = _default;
-},{"react":"../../node_modules/react/index.js","react-router-dom":"../../node_modules/react-router-dom/es/index.js","./Block":"components/Block.js"}],"components/ConductTransaction.js":[function(require,module,exports) {
+},{"react":"../../node_modules/react/index.js","react-router-dom":"../../node_modules/react-router-dom/es/index.js","react-bootstrap":"../../node_modules/react-bootstrap/es/index.js","./Block":"components/Block.js"}],"components/ConductTransaction.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
