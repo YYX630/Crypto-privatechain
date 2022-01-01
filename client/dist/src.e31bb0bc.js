@@ -53309,6 +53309,11 @@ var ConductTransaction = function ConductTransaction() {
       amount = _useState4[0],
       setAmount = _useState4[1];
 
+  var _useState5 = (0, _react.useState)([]),
+      _useState6 = _slicedToArray(_useState5, 2),
+      knownAddresses = _useState6[0],
+      setKnownAddresses = _useState6[1];
+
   var handleRecipient = function handleRecipient(e) {
     setRecipient(e.target.value);
   };
@@ -53337,11 +53342,22 @@ var ConductTransaction = function ConductTransaction() {
     });
   };
 
+  (0, _react.useEffect)(function () {
+    fetch("".concat(document.location.origin, "/api/known-address")).then(function (response) {
+      return response.json();
+    }).then(function (json) {
+      return setKnownAddresses(json);
+    });
+  }, []);
   return /*#__PURE__*/_react.default.createElement("div", {
     className: "ConductTransaction"
   }, /*#__PURE__*/_react.default.createElement(_reactRouterDom.Link, {
     to: "/"
-  }, "\u30DB\u30FC\u30E0"), /*#__PURE__*/_react.default.createElement("h3", null, "\u9001\u91D1\u3059\u308B"), /*#__PURE__*/_react.default.createElement(_reactBootstrap.FormGroup, null, /*#__PURE__*/_react.default.createElement(_reactBootstrap.FormControl, {
+  }, "\u30DB\u30FC\u30E0"), /*#__PURE__*/_react.default.createElement("h3", null, "\u9001\u91D1\u3059\u308B"), /*#__PURE__*/_react.default.createElement("br", null), /*#__PURE__*/_react.default.createElement("h4", null, "\u9001\u91D1\u5148\u5019\u88DC"), knownAddresses.map(function (knownAddress) {
+    return /*#__PURE__*/_react.default.createElement("div", {
+      key: knownAddress
+    }, knownAddress, /*#__PURE__*/_react.default.createElement("br", null), /*#__PURE__*/_react.default.createElement("br", null));
+  }), /*#__PURE__*/_react.default.createElement(_reactBootstrap.FormGroup, null, /*#__PURE__*/_react.default.createElement(_reactBootstrap.FormControl, {
     input: "text",
     placeholder: "\u9001\u91D1\u5148",
     value: recipient,
@@ -53589,7 +53605,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "40801" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "35435" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
