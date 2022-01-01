@@ -14,7 +14,7 @@ const TransactionMiner = require("./app/transaction-miner");
 
 const isDevelopment = process.env.ENV === 'development';
 const DEFAULT_PORT = 3000;
-const ROOT_NODE_ADDRESS = `http://localhost:${DEFAULT_PORT}`;
+const ROOT_NODE_ADDRESS = isDevelopment ? `http://localhost:${DEFAULT_PORT}`: 'https://yyxcoin.herokuapp.com';
 const REDIS_URL = isDevelopment ? 'redis://127.0.0.1:6379': 'redis://:pb9d61bbc9581d9475e209dc21a3018ec89f26b17dae542f4f3014ff26bc6fae9@ec2-44-198-72-123.compute-1.amazonaws.com:31109'
 
 // ---------------------------------------------------
