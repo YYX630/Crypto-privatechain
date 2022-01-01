@@ -38,6 +38,26 @@ app.get("/api/blocks", (req, res)=>{
 });
 
 
+app.get("/api/blocks/length", (req, res)=>{
+    res.json(blockchain.chain.length);
+});
+
+app.get("/api/blocks/:id", (req, res)=>{
+    const {id} = req.params;
+    const {length} = blockchain.chain;
+
+    const blocksReversed = blockchain.chain.slice().reverse();//sliceでコピーを作っている。
+
+    let startIndex = (id-1) *5;
+    let endIndex = id * 5;
+
+    startIndex = startIndex < length ? startIndex: length;
+    endIndex = startIndex < length ? endIndex: length;
+
+    res.json(blocksReversed.slice(startIndex, endIndex));
+    
+})
+
 app.post("/api/mine", (req, res)=>{
     const { data } = req.body;
     blockchain.addBlock({ data });
@@ -169,7 +189,7 @@ if (isDevelopment){
         });
     }
 
-    for (let i = 0; i < 10; i++){
+    for (let i = 0; i < 20; i++){
         if (i %3 === 0){
             walletAction();
             walletFooAction;
